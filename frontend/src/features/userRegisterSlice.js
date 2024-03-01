@@ -4,19 +4,19 @@ const userInfoFromStorage=localStorage.getItem('userInfo')?JSON.parse(localStora
 const initialState={
     userInfo:userInfoFromStorage
 };
-const userLoginSlice=createSlice({
-    name: "userLogin",
+const userRegisterSlice=createSlice({
+    name: "userRegister",
     initialState,
     reducers:{
-        userLoginRequest(state){
+        userRegisterRequest(state){
             state.loading=true;
         },
-        userLoginSuccess(state,action){
+        userRegisterSuccess(state,action){
             state.loading=false;
             state.userInfo=action.payload;
             localStorage.setItem('userInfo',JSON.stringify(action.payload))
         },
-        userLoginFail(state,action){
+        userRegisterFail(state,action){
             state.loading=false;
             state.error=action.payload;
         },
@@ -27,5 +27,5 @@ const userLoginSlice=createSlice({
     },
 });
 
-export default userLoginSlice.reducer;
-export const {userLoginRequest,userLoginSuccess,userLoginFail,userLogout} =userLoginSlice.actions;
+export default userRegisterSlice.reducer;
+export const {userRegisterRequest,userRegisterSuccess,userRegisterFail,userloo} =userRegisterSlice.actions;
