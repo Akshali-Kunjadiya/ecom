@@ -133,7 +133,7 @@ function ProductScreen() {
                     <Button
                       onClick={addToCartHandler}
                       className="btn-block"
-                      disabled={product.countInStock == 0}
+                      disabled={product.countIntStock == 0}
                       type="button"
                     >
                       Add To Cart
@@ -141,7 +141,7 @@ function ProductScreen() {
                   </Row>
                 </ListGroup.Item>
               </ListGroup>
-            </Card>
+            </Card> 
           </Col>
         </Row>
       )}

@@ -17,6 +17,7 @@ function LoginScreen() {
   const [password, setPassword] = useState("");
   const location = useLocation();
   const redirect = location.search ? location.search.split("=")[1] : "/";
+  console.log(redirect)
   const { loading, userInfo, error } = useSelector((state) => state.userlogin);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -46,7 +47,10 @@ function LoginScreen() {
   };
   useEffect(() => {
     if(userInfo){
+      if(redirect=='/')
         navigate(redirect)
+      else
+      navigate(`/${redirect}`)
     }
     
   }, [userInfo,redirect,navigate]);

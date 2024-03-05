@@ -51,9 +51,13 @@ function RegisterScreen() {
     }
   };
   useEffect(() => {
-    if (userInfo) {
-      navigate(redirect);
+    if(userInfo){
+      if(redirect=='/')
+        navigate(redirect)
+      else
+      navigate(`/${redirect}`)
     }
+    
   }, [userInfo, redirect, navigate]);
 
   const submitHandler = (e) => {
@@ -76,7 +80,7 @@ function RegisterScreen() {
         <Form.Group controlId="name" style={{ margin: "1rem 0" }}>
           <Form.Label>Name</Form.Label>
           <Form.Control
-            type="name"
+            type="text"
             placeholder="Enter Name"
             value={name}
             required

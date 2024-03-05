@@ -6,6 +6,7 @@ import userLoginSlice from '../features/userLoginSlice'
 import userRegisterSlice from '../features/userRegisterSlice'
 import userDetailsSlice from '../features/userDetailsSlice'
 import userUpdateSlice from '../features/userUpdateSlice'
+import orderSlice from '../features/orderSlice'
 import {thunk} from 'redux-thunk';
 
 // const cartItemsFromStorage=localStorage.getItem('cartItems') ? JSON.parse(localStorage.getItem('cartItems')): []
@@ -21,6 +22,8 @@ const store= configureStore({
         userRegister:userRegisterSlice,
         userDetails:userDetailsSlice,
         userUpdateProfile:userUpdateSlice,
+        orderCreate:orderSlice,
+
     },
     // preloadedState:{ 
     //     cart:initialcartState,   

@@ -41,7 +41,7 @@ class Order(models.Model):
     paidAt=models.DateTimeField(auto_now_add=False,null=True,blank=True)
     isDelivered=models.BooleanField(default=False)
     delivereAt=models.DateTimeField(auto_now_add=False,null=True,blank=True)
-    createdAt=models.DateTimeField(auto_now_add=False,null=True,blank=True)
+    createdAt=models.DateTimeField(auto_now_add=True,null=True,blank=True)
     _id=models.AutoField(primary_key=True,editable=False)
 
     def __str__(self):
@@ -51,7 +51,7 @@ class OrderItem(models.Model):
     product=models.ForeignKey(Product,on_delete=models.SET_NULL,null=True)
     order=models.ForeignKey(Order,on_delete=models.SET_NULL,null=True)
     name=models.CharField(max_length=200,null=True,blank=True)
-    qtu=models.IntegerField(null=True,blank=True,default=0)
+    qty=models.IntegerField(null=True,blank=True,default=0)
     price=models.DecimalField(max_digits=7,decimal_places=2,null=True,blank=True)
     image=models.CharField(max_length=200,null=True,blank=True)
     _id=models.AutoField(primary_key=True,editable=False)
@@ -64,7 +64,7 @@ class ShippingAddress(models.Model):
     address=models.CharField(max_length=200,null=True,blank=True)
     city=models.CharField(max_length=200,null=True,blank=True)
     postalCode=models.CharField(max_length=200,null=True,blank=True)
-    contry=models.CharField(max_length=200,null=True,blank=True)
+    country=models.CharField(max_length=200,null=True,blank=True)
     shippingPrice=models.DecimalField(max_digits=7,decimal_places=2,null=True,blank=True)
     _id=models.AutoField(primary_key=True,editable=False)
 
