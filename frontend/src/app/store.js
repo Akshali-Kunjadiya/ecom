@@ -10,6 +10,9 @@ import orderSlice from '../features/orderSlice'
 import orderDetailsSlice from '../features/orderDetailsSlice'
 import orderPaySlice from '../features/orderPaySlice'
 import orderListSlice from '../features/orderListSlice'
+import userListSlice from '../features/userListSlice'
+import userDeleteSlice from '../features/userDeleteSlice'
+import userUpdateAdminSlice from '../features/userUpdateAdminSlice'
 import {thunk} from 'redux-thunk';
 
 // const cartItemsFromStorage=localStorage.getItem('cartItems') ? JSON.parse(localStorage.getItem('cartItems')): []
@@ -29,7 +32,9 @@ const store= configureStore({
         orderDetails:orderDetailsSlice,
         orderPay:orderPaySlice,
         orderList:orderListSlice,
-
+        userList:userListSlice,
+        userDelete:userDeleteSlice,
+        userUpdateAdmin:userUpdateAdminSlice,
     },
     // preloadedState:{ 
     //     cart:initialcartState,   
