@@ -91,7 +91,6 @@ function UserEditScreen() {
         setName(user.name);
         setEmail(user.email);
         setAdmin(user.isAdmin);
-        console.log(user.isAdmin)
       }
     }
   }, [user, id,success,navigate]);
