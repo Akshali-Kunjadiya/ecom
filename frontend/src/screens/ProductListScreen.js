@@ -11,6 +11,12 @@ import {
   ProductDeleteSuccess,
   ProductDeleteFail,
 } from "../features/productDeleteSlice";
+import {
+  productCreateRequest,
+  productCreateSuccess,
+  productCreateFail,
+  productCreateReset,
+} from "../features/productCreateSlice";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
 import axios from "axios";
@@ -22,10 +28,18 @@ function ProductListScreen() {
   const { loading, productList, error } = useSelector(
     (state) => state.productList
   );
-  const { loading:loadingDelete, success, error:errorDelete } = useSelector(
-    (state) => state.productDelete
-  );
-  
+  const {
+    loading: loadingDelete,
+    success,
+    error: errorDelete,
+  } = useSelector((state) => state.productDelete);
+  const {
+    loading: loadingCreate,
+    success:successCreate,
+    error: errorCreate,
+    product:createdProduct
+  } = useSelector((state) => state.productCreate);
+
   const { userInfo } = useSelector((state) => state.userlogin);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -55,7 +69,10 @@ function ProductListScreen() {
           Authorization: `Bearer ${userInfo.token}`,
         },
       };
-      const { data } = await axios.delete(`/api/products/delete/${id}/`, config);
+      const { data } = await axios.delete(
+        `/api/products/delete/${id}/`,
+        config
+      );
       dispatch(ProductDeleteSuccess());
     } catch (err) {
       dispatch(
@@ -68,19 +85,52 @@ function ProductListScreen() {
     }
   };
 
-  useEffect(() => {
-    if (userInfo && userInfo.isAdmin) {
-      dispatch(listProduct());
-    } else {
-      navigate("/login");
-    }
-  }, [dispatch, navigate, userInfo,success]);
-  const deleteHandler = (id) => {
-    if (window.confirm("Are you sure you want to delete this product?")) {
-      dispatch(deleteProduct(id))
+  const createProduct = () => async () => {
+    try {
+      dispatch(productCreateRequest());
+
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
+      const { data } = await axios.post(
+        `/api/products/create/`,{},
+        config
+      );
+      dispatch(productCreateSuccess(data));
+    } catch (err) {
+      dispatch(
+        productCreateFail(
+          err.responsse && err.responsse.data.detail
+            ? err.response.data.detail
+            : err.message
+        )
+      );
     }
   };
-  const createProductHandler = (product) => {};
+
+  useEffect(() => {
+    dispatch(productCreateReset())
+    if (!userInfo.isAdmin) {
+      navigate("/login");
+    } 
+    if(successCreate){
+      navigate(`/admin/product/${createdProduct._id}/edit`)
+    }
+    else {
+      dispatch(listProduct());
+    }
+  }, [dispatch, navigate, userInfo, success,successCreate,createdProduct]);
+  const deleteHandler = (id) => {
+    if (window.confirm("Are you sure you want to delete this product?")) {
+      dispatch(deleteProduct(id));
+    }
+  };
+  const createProductHandler = () => {
+    dispatch(createProduct())
+  };
   return (
     <div>
       <Row className="align-items-center">
@@ -93,8 +143,10 @@ function ProductListScreen() {
           </Button>
         </Col>
       </Row>
-      {loadingDelete&&<Loader />}
-      {errorDelete&&<Message variant="danger">{errorDelete}</Message>}
+      {loadingDelete && <Loader />}
+      {errorDelete && <Message variant="danger">{errorDelete}</Message>}
+      {loadingCreate && <Loader />}
+      {errorCreate && <Message variant="danger">{errorCreate}</Message>}
       {loading ? (
         <Loader />
       ) : error ? (
