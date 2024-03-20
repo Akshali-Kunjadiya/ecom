@@ -289,8 +289,8 @@ function OrderScreen() {
                   <Col>${order.totalPrice}</Col>
                 </Row>
               </ListGroup.Item>
-
-              {!order.isPaid && (
+              {/* {order.user._id} */}
+              {!order.isPaid && order.user._id==userInfo._id&& (
                 <ListGroup.Item>
                   <PayPalScriptProvider
                     options={{
