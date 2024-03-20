@@ -16,6 +16,8 @@ import userUpdateAdminSlice from '../features/userUpdateAdminSlice'
 import productDeleteSlice from '../features/productDeleteSlice'
 import productCreateSlice from '../features/productCreateSlice'
 import productUpdateSlice from '../features/productUpdateSlice'
+import orderlistAdminSlice from '../features/orderlistAdminSlice'
+import orderDeliveredSlice from '../features/orderDeliveredSlice'
 import {thunk} from 'redux-thunk';
 
 // const cartItemsFromStorage=localStorage.getItem('cartItems') ? JSON.parse(localStorage.getItem('cartItems')): []
@@ -41,6 +43,8 @@ const store= configureStore({
         productDelete:productDeleteSlice,
         productCreate:productCreateSlice,
         productUpdate:productUpdateSlice,
+        orderListAdmin:orderlistAdminSlice,
+        orderDelivered:orderDeliveredSlice,
     },
     // preloadedState:{ 
     //     cart:initialcartState,   

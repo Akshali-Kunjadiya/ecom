@@ -18,7 +18,7 @@ import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import FormContainer from "../components/FormContainer";
 
-function ProductEditScreen() {
+const ProductEditAdminScreen = () => {
   const { id } = useParams();
   const [name, setName] = useState("");
   const [price, setPrice] = useState(0);
@@ -27,6 +27,7 @@ function ProductEditScreen() {
   const [brand, setBrand] = useState("");
   const [image, setImage] = useState("");
   const [description, setDescription] = useState("");
+  const [uploading, setUploading] = useState(false);
 
   const { userInfo } = useSelector((state) => state.userlogin);
   const { loading, product, error } = useSelector(
@@ -101,23 +102,54 @@ function ProductEditScreen() {
         setDescription(product.description);
       }
     }
-  }, [dispatch, product, id, navigate,successUpdate]);
+  }, [dispatch, product, id, navigate, successUpdate]);
 
   const submitHandler = (e) => {
     e.preventDefault();
-    dispatch(updateProdcut({
-      _id:id,
-      name,
-      price,image,brand,category,countIntStock,description
-    }));
+    dispatch(
+      updateProdcut({
+        _id: id,
+        name,
+        price,
+        image,
+        brand,
+        category,
+        countIntStock,
+        description,
+      })
+    );
   };
+  const uploadFileHandler = async(e)=>{
+    // console.log('file is uploding')
+    const file=e.target.files[0]
+    const formData=new FormData()
+    formData.append('image',file)
+    formData.append('product_id',id)
+    setUploading(true)
+    try{
+        const config={
+            headers:{
+                'Content-Type':'multipart/form-data'
+            }
+        }
+
+        const {data}=await axios.post('/api/products/upload/',formData,config)
+        setImage(data)
+        setUploading(false)
+
+
+
+    }catch(error){
+        setUploading(false)
+    }
+}
   return (
     <div>
       <Link to="/admin/productlist">Go Back</Link>
       <FormContainer>
         <h1>Edit Product</h1>
-        {loadingUpdate&&<Loader/>}
-        {errorUpdate&&<Message variant='danger'>{errorUpdate}</Message>}
+        {loadingUpdate && <Loader />}
+        {errorUpdate && <Message variant="danger">{errorUpdate}</Message>}
         {loading ? (
           <Loader />
         ) : error ? (
@@ -158,6 +190,14 @@ function ProductEditScreen() {
                   setImage(e.target.value);
                 }}
               ></Form.Control>
+              <Form.Control
+                type='file'
+                id="image-file"
+                
+                custom
+                onChange={(e)=>uploadFileHandler(e)}
+              ></Form.Control>
+              {/* {uploading&&<Loader/>} */}
             </Form.Group>
 
             <Form.Group controlId="brand" style={{ margin: "1rem 0" }}>
@@ -219,5 +259,4 @@ function ProductEditScreen() {
     </div>
   );
 }
-
-export default ProductEditScreen;
+export default ProductEditAdminScreen;

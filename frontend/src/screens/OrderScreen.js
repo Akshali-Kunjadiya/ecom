@@ -12,6 +12,12 @@ import {
   orderPayFail,
   orderPayReset,
 } from "../features/orderPaySlice";
+import {
+  orderDeliveredRequest,
+  orderDeliveredSuccess,
+  orderDeliveredFail,
+  orderDeliveredReset,
+} from "../features/orderDeliveredSlice";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import { useLocation, useNavigate, Link, useParams } from "react-router-dom";
 import Message from "../components/Message";
@@ -27,6 +33,9 @@ function OrderScreen() {
   const { order, error, loading } = useSelector((state) => state.orderDetails);
   const { success: successPay, loading: loadingPay } = useSelector(
     (state) => state.orderPay
+  );
+  const { success: successDeliver, loading: loadingDeliver } = useSelector(
+    (state) => state.orderDelivered
   );
 
   const { userInfo } = useSelector((state) => state.userlogin);
@@ -86,6 +95,34 @@ function OrderScreen() {
       );
     }
   };
+
+  const deliverOrder = (order) => async () => {
+    try {
+      dispatch(orderDeliveredSuccess());
+
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
+
+      const { data } = await axios.put(
+        `/api/orders/${order._id}/deliver/`,
+        {},
+        config
+      );
+      dispatch(orderDeliveredSuccess(data));
+    } catch (err) {
+      dispatch(
+        orderDeliveredFail(
+          err.responsse && err.responsse.data.detail
+            ? err.response.data.detail
+            : err.message
+        )
+      );
+    }
+  };
   // Ab3aEexMeeF7lrpAvS6ETqOQSTBgX_w-9VbFcXjr79oQz9PFCN2pyH2OM6LGGUyuEHPjTM_itxRoSD5U
   // const addPayPalScript = () => {
   //   const script = document.createElement("script");
@@ -119,14 +156,27 @@ function OrderScreen() {
     // console.log(paymentResult);
     dispatch(payOrder(orderId, paymentResult));
   };
+  const deliverHandler = () => {
+    // console.log(paymentResult);
+    dispatch(deliverOrder(order));
+  };
   useEffect(() => {
-    if (!order || order._id !== Number(orderId) || successPay) {
+    if(!userInfo){
+      navigate('/login')
+    }
+    if (
+      !order ||
+      order._id !== Number(orderId) ||
+      successPay ||
+      successDeliver
+    ) {
       dispatch(orderPayReset());
+      dispatch(orderDeliveredReset());
       dispatch(getOrderDetails(orderId));
     } else if (!order.isPaid) {
       setSdkReady(true);
     }
-  }, [dispatch, order, orderId, successPay]);
+  }, [dispatch, order, orderId, successPay,successDeliver]);
   return loading ? (
     <Loader />
   ) : error ? (
@@ -256,6 +306,26 @@ function OrderScreen() {
                 </ListGroup.Item>
               )}
             </ListGroup>
+            {loadingDeliver && <Loader/>}
+            {userInfo &&
+              userInfo.isAdmin &&
+              order.isPaid &&
+              !order.isDelivered && (
+                
+                  <ListGroup.Item style={{padding:'5px'}}>
+                    <Button
+                      className="btn btn-block"
+                      style={{ width: '100%' }}
+                      bsSize="large"
+                      onClick={() => {
+                        deliverHandler();
+                      }}
+                    >
+                      Mark As Deliver
+                    </Button>
+                  </ListGroup.Item>
+                
+              )}
           </Card>
         </Col>
       </Row>
