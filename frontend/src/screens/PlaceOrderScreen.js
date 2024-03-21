@@ -49,7 +49,7 @@ function PlaceOrderScreen() {
     } catch (err) {
       dispatch(
         orderCreateFail(
-          err.responsse && err.responsse.data.detail
+          err.response && err.response.data.detail
             ? err.response.data.detail
             : err.message
         )

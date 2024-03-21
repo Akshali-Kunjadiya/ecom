@@ -40,7 +40,7 @@ function UserListScreen() {
     } catch (err) {
       dispatch(
         userListFail(
-          err.responsse && err.responsse.data.detail
+          err.response && err.response.data.detail
             ? err.response.data.detail
             : err.message
         )
@@ -62,7 +62,7 @@ function UserListScreen() {
     } catch (err) {
       dispatch(
         userDeleteFail(
-          err.responsse && err.responsse.data.detail
+          err.response && err.response.data.detail
             ? err.response.data.detail
             : err.message
         )

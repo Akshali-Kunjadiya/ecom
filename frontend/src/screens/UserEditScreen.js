@@ -46,7 +46,7 @@ function UserEditScreen() {
     } catch (err) {
       dispatch(
         userDetailsFail(
-          err.responsse && err.responsse.data.detail
+          err.response && err.response.data.detail
             ? err.response.data.detail
             : err.message
         )
@@ -72,7 +72,7 @@ function UserEditScreen() {
     } catch (err) {
       dispatch(
         userUpdateAdminFail(
-          err.responsse && err.responsse.data.detail
+          err.response && err.response.data.detail
             ? err.response.data.detail
             : err.message
         )

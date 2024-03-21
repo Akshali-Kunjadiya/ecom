@@ -60,7 +60,7 @@ function OrderScreen() {
     } catch (err) {
       dispatch(
         orderDetailsFail(
-          err.responsse && err.responsse.data.detail
+          err.response && err.response.data.detail
             ? err.response.data.detail
             : err.message
         )
@@ -88,7 +88,7 @@ function OrderScreen() {
     } catch (err) {
       dispatch(
         orderPayFail(
-          err.responsse && err.responsse.data.detail
+          err.response && err.response.data.detail
             ? err.response.data.detail
             : err.message
         )
@@ -116,7 +116,7 @@ function OrderScreen() {
     } catch (err) {
       dispatch(
         orderDeliveredFail(
-          err.responsse && err.responsse.data.detail
+          err.response && err.response.data.detail
             ? err.response.data.detail
             : err.message
         )

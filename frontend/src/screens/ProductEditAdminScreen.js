@@ -50,7 +50,7 @@ const ProductEditAdminScreen = () => {
     } catch (err) {
       dispatch(
         fetchProductDetailsFail(
-          err.responsse && err.responsse.data.detail
+          err.response && err.response.data.detail
             ? err.response.data.detail
             : err.message
         )
@@ -77,7 +77,7 @@ const ProductEditAdminScreen = () => {
     } catch (err) {
       dispatch(
         productUpdateFail(
-          err.responsse && err.responsse.data.detail
+          err.response && err.response.data.detail
             ? err.response.data.detail
             : err.message
         )

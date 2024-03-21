@@ -38,7 +38,7 @@ function LoginScreen() {
     } catch (err) {
       dispatch(
         userLoginFail(
-          err.responsse && err.responsse.data.detail
+          err.response && err.response.data.detail
             ? err.response.data.detail
             : err.message
         )

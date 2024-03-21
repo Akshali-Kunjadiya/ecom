@@ -26,7 +26,7 @@ function HomeScreen() {
       } catch (err) {
         dispatch(
           fetchProductFail(
-            err.responsse && err.responsse.data.detail
+            err.response && err.response.data.detail
               ? err.response.data.detail
               : err.message
           )

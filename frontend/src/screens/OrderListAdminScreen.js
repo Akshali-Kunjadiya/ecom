@@ -36,7 +36,7 @@ function OrderListAdminScreen() {
     } catch (err) {
       dispatch(
         orderListAdminFail(
-          err.responsse && err.responsse.data.detail
+          err.response && err.response.data.detail
             ? err.response.data.detail
             : err.message
         )

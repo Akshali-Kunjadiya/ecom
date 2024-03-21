@@ -6,15 +6,18 @@ import { userLogout } from '../features/userLoginSlice'
 import { userDetailsReset } from '../features/userDetailsSlice'
 import { orderListReset } from "../features/orderListSlice";
 import { userListReset } from "../features/userListSlice";
+import { Link, useLocation,useNavigate } from "react-router-dom";
 
 function Header() {
   const { userInfo } = useSelector((state) => state.userlogin);
   const dispatch=useDispatch();
+  const navigate = useNavigate();
   const logoutHandler=()=>{
     dispatch(userLogout())
     dispatch(userDetailsReset())
     dispatch(orderListReset())
     dispatch(userListReset())
+    // navigate('/')
   }
  
   return (
