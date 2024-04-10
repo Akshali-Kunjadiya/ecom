@@ -17,9 +17,10 @@ import UserEditScreen from "./screens/UserEditScreen";
 import ProductListScreen from "./screens/ProductListScreen";
 import ProductEditAdminScreen from "./screens/ProductEditAdminScreen";
 import OrderListAdminScreen from "./screens/OrderListAdminScreen";
+import { HashRouter } from "react-router-dom";
 function App() {
   return (
-    <Router>
+    <HashRouter>
       <Header />
       <main className="py-3">
         <Container>
@@ -43,7 +44,7 @@ function App() {
         </Container>
       </main>
       <Footer />
-    </Router>
+    </HashRouter>
   );
 }
 

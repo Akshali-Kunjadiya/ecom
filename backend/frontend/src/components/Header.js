@@ -29,7 +29,7 @@ function Header() {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
         <SearchBox/>
-          <Nav className="mr-auto">
+          <Nav className="ms-auto ml-auto my-2 my-lg-0" navbarScroll>
             <LinkContainer to="/cart">
               <Nav.Link>
                 <i className="fas fa-shopping-cart"></i>Cart
