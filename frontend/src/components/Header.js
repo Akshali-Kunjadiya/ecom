@@ -7,7 +7,7 @@ import { userDetailsReset } from '../features/userDetailsSlice'
 import { orderListReset } from "../features/orderListSlice";
 import { userListReset } from "../features/userListSlice";
 import { Link, useLocation,useNavigate } from "react-router-dom";
-
+import SearchBox from "./SearchBox";
 function Header() {
   const { userInfo } = useSelector((state) => state.userlogin);
   const dispatch=useDispatch();
@@ -28,6 +28,7 @@ function Header() {
         </LinkContainer>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
+        <SearchBox/>
           <Nav className="mr-auto">
             <LinkContainer to="/cart">
               <Nav.Link>

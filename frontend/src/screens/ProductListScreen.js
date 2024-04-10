@@ -19,13 +19,14 @@ import {
 } from "../features/productCreateSlice";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
+import Paginate from "../components/Paginate";
 import axios from "axios";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
 
 function ProductListScreen() {
   const location = useLocation();
-  const { loading, productList, error } = useSelector(
+  const { loading, productList, error,pages,page } = useSelector(
     (state) => state.productList
   );
   const {
@@ -44,10 +45,10 @@ function ProductListScreen() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const listProduct = () => async () => {
+  const listProduct = (keyword='') => async () => {
     try {
       dispatch(fetchProductRequest());
-      const { data } = await axios.get("/api/products/");
+      const { data } = await axios.get(`/api/products${keyword}`);
       dispatch(fetchProductSuccess(data));
     } catch (err) {
       dispatch(
@@ -110,6 +111,7 @@ function ProductListScreen() {
       );
     }
   };
+  let keyword=location.search
 
   useEffect(() => {
     dispatch(productCreateReset())
@@ -120,9 +122,9 @@ function ProductListScreen() {
       navigate(`/admin/product/${createdProduct._id}/edit`)
     }
     else {
-      dispatch(listProduct());
+      dispatch(listProduct(keyword));
     }
-  }, [dispatch, navigate, userInfo, success,successCreate,createdProduct]);
+  }, [dispatch, navigate, userInfo, success,successCreate,createdProduct,keyword]);
   const deleteHandler = (id) => {
     if (window.confirm("Are you sure you want to delete this product?")) {
       dispatch(deleteProduct(id));
@@ -152,6 +154,7 @@ function ProductListScreen() {
       ) : error ? (
         <Message variant="danger">{error}</Message>
       ) : (
+        <div>
         <Table striped bordered hover responsive className="table-sm">
           <thead>
             <tr>
@@ -188,7 +191,10 @@ function ProductListScreen() {
               </tr>
             ))}
           </tbody>
+
         </Table>
+          <Paginate page={page} pages={pages} keyword={keyword} isAdmin={true}/>
+        </div>
       )}
     </div>
   );

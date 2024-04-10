@@ -15,7 +15,10 @@ const productSlice=createSlice({
         },
         fetchProductSuccess(state,action){
             state.loading=false;
-            state.productList=action.payload;
+            state.productList=action.payload.products;
+            state.page=action.payload.page;
+            state.pages=action.payload.pages;
+
         },
         fetchProductFail(state,action){
             state.loading=false;
